@@ -23,7 +23,7 @@ lex_client = boto3.client('lexv2-runtime')
 
 def lambda_handler(event, context):
     # TODO implement
-    print("Updated Lambda v2.3")
+    print("Updated Lambda v2.4")
     print("event is: ",event)
     # print("context is: ",context)
     
