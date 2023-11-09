@@ -4,17 +4,32 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - echo "Installing dependencies..."
-      - pip install -r requirements.txt -t lib
+      - echo "Installing dependencies for Lambda Function 1..."
+      - pip install -r lambda_function1/requirements.txt -t lambda_function1/lib
+
+      - echo "Installing dependencies for Lambda Function 2..."
+      - pip install -r lambda_function2/requirements.txt -t lambda_function2/lib
+
   build:
     commands:
-      - echo "Zipping deployment package..."
-      - cd lib
-      - zip -r9 ../deployment_package.zip .
-      - cd ..
-      - zip -g deployment_package.zip lambda_function.py
+      - echo "Zipping deployment package for Lambda Function 1..."
+      - cd lambda_function1/lib
+      - zip -r9 ../../deployment_package1.zip .
+      - cd ../..
+      - zip -g deployment_package1.zip lambda_function1/lambda_function.py
+
+      - echo "Zipping deployment package for Lambda Function 2..."
+      - cd lambda_function2/lib
+      - zip -r9 ../../deployment_package2.zip .
+      - cd ../..
+      - zip -g deployment_package2.zip lambda_function2/lambda_function.py
+
   post_build:
     commands:
-      - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name LF1-index-photos --zip-file fileb://deployment_package.zip
-      - echo "DONE!!"
+      - echo "Updating Lambda Function 1..."
+      - aws lambda update-function-code --function-name LF1-index-photos --zip-file fileb://deployment_package1.zip
+      - echo "Lambda Function 1 DONE!!"
+
+      - echo "Updating Lambda Function 2..."
+      - aws lambda update-function-code --function-name LF2-search-photos --zip-file fileb://deployment_package2.zip
+      - echo "Lambda Function 2 DONE!!"
