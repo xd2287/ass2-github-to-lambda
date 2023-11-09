@@ -39,12 +39,16 @@ def lambda_handler(event, context):
     
     # Extract objects from user message
     msg_from_lex = extract_objects(msg_from_user)
-    print("message from lex is: ",msg_from_lex[0])
+    print("message from lex is: ",msg_from_lex)
     objects = []
-    if "content" in msg_from_lex[0]:
-        objects = msg_from_lex[0]["content"].split(" ")
-        objects = [singularize(item) for item in objects if item != "None"]
-    print("The objects extracted from user message is ", objects)
+
+    if len(msg_from_lex) > 0:
+        print("message from user is: ",msg_from_lex[0])
+        objects = []
+        if "content" in msg_from_lex[0]:
+            objects = msg_from_lex[0]["content"].split(" ")
+            objects = [singularize(item) for item in objects if item != "None"]
+        print("The objects extracted from user message is ", objects)
     
     if objects != []:
         # Query data in OpenSearch index ("photos")
