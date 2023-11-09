@@ -23,3 +23,8 @@ phases:
       - zip -r9 ../../deployment_package2.zip .
       - cd ../..
       - zip -g deployment_package2.zip LF2/lambda_function.py
+      
+artifacts:
+  files:
+    - deployment_package1.zip
+    - deployment_package2.zip
